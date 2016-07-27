@@ -20,3 +20,15 @@ post '/contacts' do
     end
     results.to_json
 end
+
+get '/search/:txt' do
+  Contact.where('first_name LIKE ? OR last_name LIKE ?', "%#{params[:txt]}%","%#{params[:txt]}%").to_json
+end
+
+get '/contacts/:id/delete' do
+  results = {result: false}
+  if Contact.find(params[:id]).destroy
+    results[:result] = true
+  end
+  results.to_json
+end
